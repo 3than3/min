@@ -9,7 +9,10 @@ add_executable(kernel src/main.cc
         src/glue/mem.cc
         src/glue/stubs.cc
         src/util.cc
-        include/util.hh)
+        include/util.hh
+        src/fb.cc
+        include/fb.hh
+)
 
 target_compile_options(kernel PUBLIC $<$<COMPILE_LANGUAGE:C,CXX>:
         -fno-stack-check
@@ -52,6 +55,7 @@ target_include_directories(kernel PUBLIC
 )
 
 set(ISO_IMAGE ${PROJECT_NAME}.iso)
+
 add_custom_command(OUTPUT ${ISO_IMAGE} DEPENDS kernel
         COMMAND make -C ${CMAKE_CURRENT_SOURCE_DIR}/subprojects/limine
         COMMAND mkdir -p ${CMAKE_CURRENT_BINARY_DIR}/iso_root/boot

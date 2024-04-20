@@ -1,6 +1,7 @@
 #include <util.hh>
 #include <types.hh>
 #include <limine.h>
+#include <fb.hh>
 
 namespace
 {
@@ -14,7 +15,7 @@ namespace
     };
 }
 
-// Global cnstructor arrays
+// Global constructor arrays
 extern void (*__init_array[])();
 extern void (*__init_array_end[])();
 
@@ -31,22 +32,9 @@ extern "C" void _start()
         __init_array[i]();
     }
 
-    if
-    (
-        framebuffer_request.response == nullptr
-        || framebuffer_request.response->framebuffer_count < 1
-    )
-    {
-        au::endless_hang();
-    }
+    framebuffer::init(const_cast<limine_framebuffer_request &>(framebuffer_request));
 
-    limine_framebuffer *framebuffer = framebuffer_request.response->framebuffers[0];
-
-    for (au::usize i = 0; i < 256; i++)
-    {
-        volatile au::u32 *fb_ptr = static_cast<volatile au::u32 *>(framebuffer->address);
-        fb_ptr[i * (framebuffer->pitch / 4) + i] = 0xffffff;
-    }
+    framebuffer::self().draw_px(10, 10, 0xFFFFFF);
 
     au::endless_hang();
 }
