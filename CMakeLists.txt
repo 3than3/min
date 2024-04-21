@@ -9,9 +9,13 @@ add_executable(kernel src/main.cc
         src/glue/stubs.cc
         src/util.cc
         include/util.hh
-        src/fb.cc
-        include/fb.hh
+        src/framebuffer.cc
+        include/framebuffer.hh
         include/font.hh
+        src/init.cc
+        include/main.hh
+        src/print.cc
+        include/print.hh
 )
 
 target_compile_options(kernel PUBLIC $<$<COMPILE_LANGUAGE:C,CXX>:
@@ -73,4 +77,4 @@ add_custom_command(OUTPUT ${ISO_IMAGE} DEPENDS kernel
 )
 
 add_custom_target(iso ALL DEPENDS ${ISO_IMAGE})
-add_custom_target(run DEPENDS ${ISO_IMAGE} COMMAND qemu-system-x86_64 -M q35 -m 2G -cdrom ${ISO_IMAGE})
+add_custom_target(run DEPENDS ${ISO_IMAGE} COMMAND qemu-system-x86_64 -no-reboot -no-shutdown -M q35 -m 2G -cdrom ${ISO_IMAGE})

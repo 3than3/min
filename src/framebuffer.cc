@@ -1,4 +1,4 @@
-#include <fb.hh>
+#include <framebuffer.hh>
 #include <font.hh>
 
 bool framebuffer::init(struct limine_framebuffer_request &request)
@@ -50,9 +50,9 @@ void framebuffer::draw_char(u64 x, u64 y, char c, u32 fg_color, u32 bg_color)
 {
     auto glyph = &FONT[c * 16];
 
-    for (usize y1 = 0; y1 < 16; y1++)
+    for (usize y1 = 0; y1 < FONT_HEIGHT; y1++)
     {
-        for (usize x1 = 0; x1 < 8; x1++)
+        for (usize x1 = 0; x1 < FONT_WIDTH; x1++)
         {
             if ((glyph[y1] >> x1 & 1) == 1)
             {
