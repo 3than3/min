@@ -6,12 +6,12 @@ enable_language(ASM_NASM)
 
 add_executable(kernel src/main.cc
         include/types.hh
-        src/glue/mem.cc
         src/glue/stubs.cc
         src/util.cc
         include/util.hh
         src/fb.cc
         include/fb.hh
+        include/font.hh
 )
 
 target_compile_options(kernel PUBLIC $<$<COMPILE_LANGUAGE:C,CXX>:

@@ -14,10 +14,10 @@ public:
     framebuffer() = default;
 
     framebuffer(u64 width, u64 height, u64 pitch, u32* address):
-        m_width(width),
-        m_height(height),
-        m_pitch(pitch),
-        m_address(address)
+            m_width(width),
+            m_height(height),
+            m_pitch(pitch),
+            m_buffer(address)
     {}
 
     static framebuffer &self();
@@ -25,8 +25,8 @@ public:
     static bool init(struct limine_framebuffer_request &request);
 
     void draw_px(u64 x, u64 y, u32 color);
-    void draw_rect();
-    void draw_char();
+    void draw_rect(u64 x, u64 y, u64 width, u64 height, u32 color);
+    void draw_char(u64 x, u64 y, char c, u32 fg_color, u32 bg_color);
 
     u64 width() const
     {
@@ -39,8 +39,9 @@ public:
     }
 
 private:
+    // Below are in pixels
     u64  m_pitch;
     u64  m_width;
     u64  m_height;
-    u32 *m_address;
+    u32 *m_buffer;
 };
