@@ -1,10 +1,12 @@
-#pragma once
+export module font;
 
-constexpr usize FONT_WIDTH = 8;
-constexpr usize FONT_HEIGHT = 16;
+import types;
+
+export constexpr usize g_font_width = 8;
+export constexpr usize g_font_height = 16;
 
 // Terminus
-constexpr unsigned char FONT[] =
+export constexpr unsigned char g_font[] =
 {
         0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
         0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x7e, 0x81, 0xa5, 0x81, 0x81, 0xbd,

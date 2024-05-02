@@ -1,4 +1,4 @@
-#include <util.hh>
+import util;
 
 extern "C"
 {

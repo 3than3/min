@@ -1,22 +1,33 @@
-cmake_minimum_required(VERSION 3.15)
+cmake_minimum_required(VERSION 3.28)
 
-project(min VERSION 0.0.1 DESCRIPTION "A barebones example Limine kernel with CMake build system.")
+project(super VERSION 0.0.1 DESCRIPTION "We OS")
 
 enable_language(ASM_NASM)
 
-add_executable(kernel src/main.cc
-        include/types.hh
-        src/glue/stubs.cc
-        src/util.cc
-        include/util.hh
-        src/framebuffer.cc
-        include/framebuffer.hh
-        include/font.hh
-        src/init.cc
-        include/main.hh
-        src/print.cc
-        include/print.hh
+set(CMAKE_CXX_STANDARD 20)
+
+add_executable(kernel)
+
+target_sources(kernel PUBLIC
+        src/init.cxx
+        src/glue/stubs.cxx
+        src/glue/mem.cxx
 )
+
+target_sources(kernel
+        PUBLIC
+          FILE_SET CXX_MODULES FILES
+        src/au/util.cxx
+        src/au/types.cxx
+        src/au/array.cxx
+        src/au/verify.cxx
+        src/framebuffer.cxx
+        src/font.cxx
+        src/limine.cxx
+        src/kernel.cxx
+)
+
+target_compile_features(kernel PRIVATE cxx_std_20)
 
 target_compile_options(kernel PUBLIC $<$<COMPILE_LANGUAGE:C,CXX>:
         -fno-stack-check
@@ -43,19 +54,13 @@ target_compile_options(kernel PUBLIC $<$<COMPILE_LANGUAGE:C,CXX>:
         -mno-red-zone
         -msoft-float
         -mcmodel=kernel
-        -std=gnu++20
+        -std=c++20
         >)
 
 target_link_options(kernel PUBLIC
         -T${CMAKE_CURRENT_SOURCE_DIR}/link.ld
         -nostdlib
-        -zmax-page-size=0x1000
         -static
-)
-
-target_include_directories(kernel PUBLIC
-        ${CMAKE_CURRENT_SOURCE_DIR}/include
-        ${CMAKE_CURRENT_SOURCE_DIR}/subprojects/limine
 )
 
 set(ISO_IMAGE ${PROJECT_NAME}.iso)
