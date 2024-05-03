@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.28)
 
-project(super VERSION 0.0.1 DESCRIPTION "We OS")
+project(super VERSION 0.0.1 DESCRIPTION "SUPER UNIX. SUPER UNIX. SUPER UNIX.")
 
 enable_language(ASM_NASM)
 
@@ -15,16 +15,18 @@ target_sources(kernel PUBLIC
 )
 
 target_sources(kernel
-        PUBLIC
-          FILE_SET CXX_MODULES FILES
-        src/au/util.cxx
-        src/au/types.cxx
-        src/au/array.cxx
-        src/au/verify.cxx
-        src/framebuffer.cxx
-        src/font.cxx
-        src/limine.cxx
-        src/kernel.cxx
+        PUBLIC FILE_SET CXX_MODULES FILES
+            src/au/util.cxx
+            src/au/types.cxx
+            src/au/array.cxx
+            src/au/verify.cxx
+            src/au/integral.cxx
+            src/framebuffer.cxx
+            src/font.cxx
+            src/limine.cxx
+            src/kernel.cxx
+            src/fmt.cxx
+        src/io.cxx
 )
 
 target_compile_features(kernel PRIVATE cxx_std_20)

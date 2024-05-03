@@ -27,7 +27,7 @@ public:
 
     static bool init(limine::framebuffer_request &request)
     {
-        if ( request.response == nullptr || request.response->framebuffer_count < 1)
+        if (request.response == nullptr || request.response->framebuffer_count < 1)
         {
             return false;
         }
@@ -35,12 +35,12 @@ public:
         auto *limine_fb = request.response->framebuffers[0];
 
         self() = framebuffer
-                (
-                        limine_fb->width,
-                        limine_fb->height,
-                        limine_fb->pitch / 4,
-                        static_cast<u32 *>(limine_fb->address)
-                );
+        (
+            limine_fb->width,
+            limine_fb->height,
+            limine_fb->pitch / 4,
+            static_cast<u32 *>(limine_fb->address)
+        );
 
         return true;
     }

@@ -15,6 +15,7 @@ export using s64 = signed long long;
 template<bool is_64_bit>
 struct pointer_sized;
 
+// Pointer sized integers
 template<>
 struct pointer_sized<true>
 {
