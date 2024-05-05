@@ -12,6 +12,7 @@ target_sources(kernel PUBLIC
         src/init.cxx
         src/glue/stubs.cxx
         src/glue/mem.cxx
+        src/amd64/handlers.asm
 )
 
 target_sources(kernel
@@ -26,6 +27,9 @@ target_sources(kernel
             src/limine.cxx
             src/kernel.cxx
             src/fmt.cxx
+            src/amd64/gdt.cxx
+            src/amd64/init.cxx
+            src/amd64/idt.cxx
         src/io.cxx
 )
 
@@ -56,6 +60,7 @@ target_compile_options(kernel PUBLIC $<$<COMPILE_LANGUAGE:C,CXX>:
         -mno-red-zone
         -msoft-float
         -mcmodel=kernel
+        -masm=intel
         -std=c++20
         >)
 

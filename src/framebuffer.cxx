@@ -4,55 +4,40 @@ import font;
 import types;
 import limine;
 
-export class framebuffer
+namespace framebuffer
 {
-public:
-    // We need a default constructor for the singleton pattern, as otherwise
-    // _cxa_guard_acquire is needed. I do not understand cpp well enough yet to come up
-    // with something better
-    framebuffer() = default;
+    u64   m_pitch;
+    u64   m_width;
+    u64   m_height;
+    u32  *m_buffer;
+    bool  m_initialized;
 
-    framebuffer(u64 width, u64 height, u64 pitch, u32 *address):
-            m_width(width),
-            m_height(height),
-            m_pitch(pitch),
-            m_buffer(address)
-    {}
-
-    static framebuffer &self()
-    {
-        static framebuffer instance;
-        return instance;
-    }
-
-    static bool init(limine::framebuffer_request &request)
+    export void init(volatile limine::framebuffer_request &request)
     {
         if (request.response == nullptr || request.response->framebuffer_count < 1)
         {
-            return false;
+            m_initialized = false;
+            return;
         }
 
         auto *limine_fb = request.response->framebuffers[0];
 
-        self() = framebuffer
-        (
-            limine_fb->width,
-            limine_fb->height,
-            limine_fb->pitch / 4,
-            static_cast<u32 *>(limine_fb->address)
-        );
+        m_width  = limine_fb->width;
+        m_height = limine_fb->height;
+        m_pitch  = limine_fb->pitch / 4;
+        m_buffer = static_cast<u32 *>(limine_fb->address);
 
-        return true;
+        m_initialized = true;
     }
 
-    void draw_px(u64 x, u64 y, u32 color)
+    export void draw_px(u64 x, u64 y, u32 color)
     {
         m_buffer[m_pitch * y + x] = color;
     }
 
     // TODO: This is not efficient. At a minimun each line should be a memset,
     //       however memset basically does a for-loop. Rep movs* will be better
-    void draw_rect(u64 x, u64 y, u64 width, u64 height, u32 color)
+    export void draw_rect(u64 x, u64 y, u64 width, u64 height, u32 color)
     {
         for (usize y1 = 0; y1 < height; y1++) {
             usize where = m_pitch * (y + y1) + x;
@@ -64,7 +49,7 @@ public:
         }
     }
 
-    void draw_char(u64 x, u64 y, char c, u32 fg_color, u32 bg_color)
+    export void draw_char(u64 x, u64 y, char c, u32 fg_color, u32 bg_color)
     {
         auto glyph = &g_font[c * 16];
 
@@ -84,20 +69,18 @@ public:
         }
     }
 
-    u64 width() const
+    export u64 width()
     {
         return m_width;
     }
 
-    u64 height() const
+    export u64 height()
     {
         return m_height;
     }
 
-private:
-    // All values are in pixels
-    u64  m_pitch;
-    u64  m_width;
-    u64  m_height;
-    u32 *m_buffer;
-};
+    export bool initialized()
+    {
+        return m_initialized;
+    }
+}

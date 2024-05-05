@@ -117,6 +117,18 @@ void print_arg(t arg, const char specifier)
     }
 }
 
+void print_arg(const char* arg, const char specifier)
+{
+    if (specifier != '\0')
+    {
+        put_string("<Cannot format string>");
+        return;
+    }
+
+    put_string(arg);
+}
+
+
 void print_arg(bool arg, const char specifier)
 {
     if (specifier != '\0')

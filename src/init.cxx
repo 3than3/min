@@ -39,7 +39,9 @@ extern "C" void _init()
     }
 
     // Initialize framebuffer, or hang, there isn't anything better to do
-    if (!framebuffer::init(const_cast<limine::framebuffer_request &>(framebuffer_request)))
+    framebuffer::init(framebuffer_request);
+
+    if (!framebuffer::initialized())
     {
         au::endless_hang();
     }
