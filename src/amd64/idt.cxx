@@ -179,7 +179,7 @@ namespace amd64
 
         extern "C" void exception_handler(interrupt_frame *frame)
         {
-            print("\n!!! {} exception occurred !!!\nInterrupt frame:\n", exceptions[frame->ident]);
+            print("\nFatal: {} exception occurred\nInterrupt frame:\n", exceptions[frame->ident]);
             print
             (
                 "\tR15: {h}\n\tR14: {h}\n\tR14: {h}\n\tR13: {h}\n\tR11: {h}\n\tR10: {h}\n\tR9: {h}\n\tR8: {h}\n\tRDI: {h}\n\tRSI: {h}\n\tRBP: {h}\n\tRDX: {h}\n\tRCX: {h}\n\tRBX: {h}\n\tRAX: {}\n\tError Code: {b}\n\tRIP: {h}\n\tCS: {h}\n\tRSP: {h}\n\tSS: {h}\nend\n\n",

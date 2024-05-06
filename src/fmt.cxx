@@ -1,8 +1,10 @@
 export module fmt;
 
 import io;
+import util;
 import types;
 import integral;
+import debug_info;
 
 constexpr char base_2[] = "01";
 constexpr char base_10[] = "0123456789";
@@ -128,7 +130,6 @@ void print_arg(const char* arg, const char specifier)
     put_string(arg);
 }
 
-
 void print_arg(bool arg, const char specifier)
 {
     if (specifier != '\0')
@@ -181,4 +182,21 @@ void print(const char *fmt, t arg, args... other_args)
             fmt++;
         }
     }
+}
+
+export template<typename t, typename... args>
+void panic(const char *fmt, t arg, args... other_args, au::debug_info dbg = au::debug_info::current())
+{
+    print("\nFatal: panic in {}::{} at {}:{}\nCause: ", dbg.file_name(), dbg.func_name(), dbg.line(), dbg.column());
+    print(fmt, arg, other_args...);
+
+    au::endless_hang();
+}
+
+export void panic(const char *fmt, au::debug_info dbg = au::debug_info::current())
+{
+    print("\nFatal: panic in {}::{} at {}:{}\nCause: ", dbg.file_name(), dbg.func_name(), dbg.line(), dbg.column());
+    print(fmt);
+
+    au::endless_hang();
 }

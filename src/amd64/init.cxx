@@ -13,10 +13,5 @@ export namespace amd64
         print("GDT initialised\n");
         idt::init();
         print("IDT initialised\n");
-
-        asm volatile ("int 3");
-        int a = 0;
-        int b = 2;
-        int c = b / a;
     }
 }
