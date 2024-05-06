@@ -14,4 +14,13 @@ export namespace au
             endless_hang();
         }
     }
+
+    void require(bool expression, const char *requirement, debug_info dbg = debug_info::current())
+    {
+        if (!expression)
+        {
+            print("\nFatal: requirement <{}> not met in {}::{} at {}:{}\n", requirement, dbg.file_name(), dbg.func_name(), dbg.line(), dbg.column());
+            endless_hang();
+        }
+    }
 }

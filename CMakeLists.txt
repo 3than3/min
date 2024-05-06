@@ -23,6 +23,7 @@ target_sources(kernel
             src/au/require.cxx
             src/au/integral.cxx
             src/au/debug_info.cxx
+            src/au/optional.cxx
             src/framebuffer.cxx
             src/font.cxx
             src/limine.cxx

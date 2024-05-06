@@ -5,6 +5,9 @@ import util;
 import require;
 import framebuffer;
 
+import types;
+import optional;
+
 import amd64;
 
 export void main()
@@ -13,9 +16,18 @@ export void main()
 
     print("Initialisation complete...\n");
 
-    //au::require(false);
+    auto option = au::optional<u32>();
 
-    panic("Boogabooga\n");
+    if (option.valid())
+    {
+        print("{}", option.unwrap());
+    }
+    else
+    {
+        option = 5;
+        print("{}", option.unwrap());
+    }
+
 
     au::endless_hang();
 }

@@ -6,6 +6,10 @@ export namespace au
 {
     // Design sourced from:
     //      https://github.com/paweldac/source_location/blob/master/include/source_location/source_location.hpp
+    //
+    // Usage:
+    // function(au::debug_info dbg = au::debug_info::current())
+    //      - dbg will contain the location of the call site for function
     struct debug_info
     {
     public:
